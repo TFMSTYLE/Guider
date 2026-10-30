@@ -3,7 +3,7 @@
 ![guider-thumb](https://github.com/user-attachments/assets/e9112f7e-9dce-48d7-b193-90800fc00e49)
 
 **Author:** The French Monkey (TFMSTYLE)  
-**Version:** 1.0.0  
+**Version:** 1.0.1  
 
 ---
 
@@ -224,3 +224,21 @@ Guider supports two draw passes:
 - Supports all grid types simultaneously through parameter adjustments.
 
 Guider provides a **clean, professional overlay system** for spatial visualization, technical design, and compositional reference — empowering artists to work with clarity and precision.
+
+---
+
+## Install
+
+Needs Blender 4.2 or later. Get the zip from [tfmstyle.com](https://tfmstyle.com), then in Blender open Edit > Preferences > Get Extensions, open the menu at the top right and pick Install from Disk.
+
+To build the zip yourself, run this in the repo folder:
+
+```bash
+blender --command extension build
+```
+
+---
+
+## License
+
+GPL 3.0 or later. See [LICENSE](LICENSE).

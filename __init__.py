@@ -1,7 +1,10 @@
+# SPDX-FileCopyrightText: 2025-2026 The French Monkey
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 bl_info = {
     "name": "Guider",
     "author": "The French Monkey",
-    "version": (1, 0, 0),
+    "version": (1, 0, 1),
     "blender": (4, 2, 0),
     "location": "View3D > Sidebar > Guider",
     "description": "Overlay guides with Main/Sub grids and labels",
@@ -26,7 +29,6 @@ _SHADER_NAME = "UNIFORM_COLOR"
 _GEOM_CACHE = {}
 _LABEL_CACHE = {}
 _LAST_VIEW_MATRIX_HASH = None
-_SHADER = gpu.shader.from_builtin("UNIFORM_COLOR")
 
 # ------------------------------------------------------------------------
 # Draw handlers (3D/2D)
@@ -259,11 +261,12 @@ def _unit_convert(val_m, mode):
 def _draw_lines(coords, color):
     if not coords:
         return
-    batch = batch_for_shader(_SHADER, "LINES", {"pos": coords})
+    shader = gpu.shader.from_builtin(_SHADER_NAME)
+    batch = batch_for_shader(shader, "LINES", {"pos": coords})
     gpu.state.blend_set("ALPHA")
-    _SHADER.bind()
-    _SHADER.uniform_float("color", color)
-    batch.draw(_SHADER)
+    shader.bind()
+    shader.uniform_float("color", color)
+    batch.draw(shader)
     gpu.state.blend_set("NONE")
 
 def _draw_crosses(points, color, world_size, three_d=False):
