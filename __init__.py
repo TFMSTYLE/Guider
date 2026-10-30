@@ -4,7 +4,7 @@
 bl_info = {
     "name": "Guider",
     "author": "The French Monkey",
-    "version": (1, 0, 1),
+    "version": (1, 0, 2),
     "blender": (4, 2, 0),
     "location": "View3D > Sidebar > Guider",
     "description": "Overlay guides with Main/Sub grids and labels",
@@ -18,6 +18,11 @@ from mathutils import Vector
 from gpu_extras.batch import batch_for_shader
 import bpy_extras.view3d_utils as v3d
 import blf
+
+try:
+    from . import relay_updater
+except ImportError:  # the Addon Collection has its own updates
+    relay_updater = None
 
 # ------------------------------------------------------------------------
 # Globals
@@ -561,6 +566,8 @@ class VIEW3D_PT_guider(bpy.types.Panel):
     bl_category = 'Guider'
 
     def draw(self, context):
+        if relay_updater:
+            relay_updater.draw(self.layout)
         layout = self.layout
         p = context.scene.guider_props
 
@@ -660,12 +667,16 @@ _CLASSES = (
 )
 
 def register():
+    if relay_updater:
+        relay_updater.register("blender-guider")
     for c in _CLASSES:
         bpy.utils.register_class(c)
     bpy.types.Scene.guider_props = bpy.props.PointerProperty(type=GuiderOverlayProps)
     _enable_handlers()
 
 def unregister():
+    if relay_updater:
+        relay_updater.unregister()
     _disable_handlers()
     for c in reversed(_CLASSES):
         bpy.utils.unregister_class(c)
