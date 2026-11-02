@@ -1,7 +1,7 @@
 schema_version = "1.0.0"
 
 id = "tfmstyle_guider"
-version = "1.0.2"
+version = "1.0.3"
 name = "TFMSTYLE - Guider"
 tagline = "Overlay guides with Main/Sub grids and labels"
 maintainer = "The French Monkey"
